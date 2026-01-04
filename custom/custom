@@ -1,0 +1,58 @@
+#pragma once
+
+#include <string/string.h>
+#include <functional/functional.h>
+#include <callback/callback.h>
+#include <manager/manager.h>
+
+namespace custom {
+
+    template<typename T>
+    size_t find(const T *const buffer, size_t size, const T *const data) {
+
+        if (data == nullptr || buffer == nullptr || size == 0) {
+            return -1;
+        }
+
+        size_t location = 0;
+        bool is_find = false;
+
+        for (; location < size; ++location) {
+            if (&buffer[location] == data) {
+                is_find = true;
+                break;
+            }
+        }
+
+        if (!is_find) {
+            location = -1;
+        }
+
+        return location;
+    }
+
+    template<typename T>
+    size_t find(const T *const buffer, size_t size, const T &data) {
+
+        if (buffer == nullptr || size == 0) {
+            return -1;
+        }
+
+        size_t location = 0;
+        bool is_find = false;
+
+        for (; location < size; ++location) {
+            if (buffer[location] == data) {
+                is_find = true;
+                break;
+            }
+        }
+
+        if (!is_find) {
+            location = -1;
+        }
+
+        return location;
+    }
+
+};

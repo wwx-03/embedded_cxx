@@ -1,0 +1,88 @@
+#pragma once
+
+
+namespace custom {
+
+template<typename Signature>
+class function;
+
+template<typename R, typename... Args>
+class function<R(Args...)> {
+private:
+    using func = R (*)(Args...);
+
+    func func_;
+
+public:
+    function() { func_ = nullptr; }
+
+    template<typename F>
+    function(F func) : func_(static_cast<R (*)(Args...)>(func)) {}
+
+    template<typename F>
+    function &operator=(F other) {
+        func_ = static_cast<R (*)(Args...)>(other);
+        return *this;
+    }
+
+    R operator()(Args... args) {
+        if (!func_) {
+            while (1);
+        }
+        return func_(args...);
+    }
+
+    explicit operator bool() {
+        return func_ != nullptr;
+    }
+
+    bool operator==(R (*other)(Args...)) {
+        return func_ == other;
+    }
+
+    bool operator!=(R (*other)(Args...)) {
+        return func_ != other;
+    }
+};
+
+template<typename... Args>
+class function<void(Args...)> {
+private:
+    using func = void (*)(Args...);
+
+    func func_;
+
+public:
+    function() { func_ = nullptr; }
+
+    template<typename F>
+    function(F func) : func_(static_cast<void (*)(Args...)>(func)) {}
+
+    template<typename F>
+    function &operator=(F other) {
+        func_ = static_cast<void (*)(Args...)>(other);
+        return *this;
+    }
+
+    void operator()(Args... args) {
+        if (!func_) {
+            while (1);
+        }
+        func_(args...);
+    }
+
+    explicit operator bool() {
+        return func_ != nullptr;
+    }
+
+    bool operator==(void (*other)(Args...)) {
+        return func_ == other;
+    }
+
+    bool operator!=(void (*other)(Args...)) {
+        return func_ != other;
+    }
+};
+
+};
+
