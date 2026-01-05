@@ -7,10 +7,10 @@
 
 namespace custom {
 
+template<size_t N>
 class string {
 private:
-    static constexpr size_t N = 64;
-
+    // static constexpr size_t N = 64;
     char data_[N];
 
 public:

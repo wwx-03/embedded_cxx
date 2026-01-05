@@ -15,19 +15,6 @@ struct manager {
         return p[offset];
     }
 
-    manager &operator++() {
-        if (u < N) {
-            ++u;
-        }
-        return *this;
-    }
-
-    manager operator++(int) {
-        manager temp = *this;
-        ++(*this);
-        return temp;
-    }
-
     T &next() {
         if (u >= N) {
             u = 0;
