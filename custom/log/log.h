@@ -2,25 +2,22 @@
 
 #include <log/segger/SEGGER_log.h>
 
-namespace custom {
+#ifndef LOG_CLEAR
+#define LOG_CLEAR()
+#endif
 
-class log {
+#ifndef LOG
+#define LOG(fmt, ...)
+#endif
 
-	template<typename... Args>
-	static void information(const char *const fmt, Args... args) {
-		
-	}
-	
-	template<typename... Args>
-	static void warning(const char *const fmt, Args... args) {
-		
-	}
-	
-	template<typename... Args>
-	static void error(const char *const fmt, Args... args) {
-		
-	}
-};
+#ifndef LOGI
+#define LOGI(fmt, ...)
+#endif
 
-};
+#ifndef LOGW
+#define LOGW(fmt, ...)
+#endif
 
+#ifndef LOGE
+#define LOGE(fmt, ...)
+#endif
