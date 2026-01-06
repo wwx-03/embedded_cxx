@@ -6,13 +6,10 @@
 
 #if LOG_DEBUG
 
-/* ����*/
 #define LOG_CLEAR() SEGGER_RTT_WriteString(0, RTT_CTRL_CLEAR)
 
-/* ����ɫ��־��� */
 #define LOG(format,...) SEGGER_RTT_printf(0, format  RTT_CTRL_RESET, ##__VA_ARGS__)
 
-/* ����ɫ��ʽ��־��� */
 #define LOGI(format,...) SEGGER_RTT_printf(0, RTT_CTRL_TEXT_BRIGHT_GREEN "LOG: " format  RTT_CTRL_RESET, ##__VA_ARGS__)
 #define LOGW(format,...) SEGGER_RTT_printf(0, RTT_CTRL_TEXT_BRIGHT_YELLOW "WAR: " format  RTT_CTRL_RESET, ##__VA_ARGS__)
 #define LOGE(format,...) SEGGER_RTT_printf(0, RTT_CTRL_TEXT_BRIGHT_RED "ERR: " format  RTT_CTRL_RESET, ##__VA_ARGS__)
