@@ -2,6 +2,10 @@
 
 #include <log/segger/SEGGER_log.h>
 
+#ifndef LOG_INIT
+#define LOG_INIT()
+#endif
+
 #ifndef LOG_CLEAR
 #define LOG_CLEAR()
 #endif

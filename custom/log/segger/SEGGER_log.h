@@ -6,6 +6,7 @@
 
 #if LOG_DEBUG
 
+#define LOG_INIT() SEGGER_RTT_Init()
 #define LOG_CLEAR() SEGGER_RTT_WriteString(0, RTT_CTRL_CLEAR)
 
 #define LOG(format,...) SEGGER_RTT_printf(0, format  RTT_CTRL_RESET, ##__VA_ARGS__)
