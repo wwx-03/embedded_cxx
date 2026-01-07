@@ -1,0 +1,65 @@
+#pragma once
+
+#include <string.h>
+#include <custom>
+
+namespace custom {
+
+template<typename T, size_t N>
+class manager {
+public:
+    constexpr size_t size() const { return N; }
+    constexpr size_t usage() const { return u; }
+
+    T *begin() noexcept { return p; }
+    const T *begin() const noexcept { return p; }
+    T *end() noexcept { return p + u; }
+    const T *end() const noexcept { return p + u; }
+    T *data() noexcept { return p; }
+    const T *data() const noexcept { return p; }
+    void clear() { u = 0; }
+
+    T &next() {
+        if (u >= N) {
+            u = 0;
+        }
+        return p[u++];
+    }
+
+
+    void remove(const size_t position) {
+        if (position >= u) {
+            return;
+        }
+
+        for (size_t i = position; i < u - 1; ++i) {
+            p[i] = p[i + 1];
+        }
+
+        p[u - 1] = T{};
+    }
+
+    void remove(const T &object) {
+
+        size_t position = custom::find(p, N, object);
+
+        remove(position);
+    }
+
+
+    T &operator[](size_t offset) {
+        return p[offset];
+    }
+
+private:
+    T p[N]{};
+    size_t u = 0;
+};
+
+template<typename T1, typename T2>
+struct pair {
+    T1 first;
+    T2 second;
+};
+
+};
