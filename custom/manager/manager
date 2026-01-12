@@ -8,52 +8,64 @@ namespace custom {
 template<typename T, size_t N>
 class manager {
 public:
-    constexpr size_t size() const { return N; }
-    constexpr size_t usage() const { return u; }
+    manager() = default;
 
-    T *begin() noexcept { return p; }
-    const T *begin() const noexcept { return p; }
-    T *end() noexcept { return p + u; }
-    const T *end() const noexcept { return p + u; }
-    T *data() noexcept { return p; }
-    const T *data() const noexcept { return p; }
-    void clear() { u = 0; }
+    manager(const T *p, size_t u, size_t offset = 0) {
+        u_ = u > N ? N : u;
+        memcpy(p_, p, u_ * sizeof(T));
+    }
+
+    constexpr size_t size() const { return N; }
+    constexpr size_t usage() const { return u_; }
+
+    T *begin() noexcept { return p_; }
+    const T *begin() const noexcept { return p_; }
+    T *end() noexcept { return p_ + u_; }
+    const T *end() const noexcept { return p_ + u_; }
+    T *data() noexcept { return p_; }
+    const T *data() const noexcept { return p_; }
+    void clear() { u_ = 0; offset_ = 0; }
+    bool empty() const { return u_ == 0; }
 
     T &next() {
-        if (u >= N) {
-            u = 0;
+        if (u_ >= N) {
+            offset_ = 0;
+        } else {
+            ++u_;
         }
-        return p[u++];
+        return p_[offset_++];
     }
 
 
     void remove(const size_t position) {
-        if (position >= u) {
+        if (position >= u_) {
             return;
         }
 
-        for (size_t i = position; i < u - 1; ++i) {
-            p[i] = p[i + 1];
+        for (size_t i = position; i < u_ - 1; ++i) {
+            p_[i] = p_[i + 1];
         }
 
-        p[u - 1] = T{};
+        p_[u_ - 1] = T{};
+        --u_;
     }
 
     void remove(const T &object) {
 
-        size_t position = custom::find(p, N, object);
+        size_t position = custom::find(p_, N, object);
 
         remove(position);
     }
 
 
     T &operator[](size_t offset) {
-        return p[offset];
+        return p_[offset];
     }
 
 private:
-    T p[N]{};
-    size_t u = 0;
+    T p_[N]{};
+    size_t u_ = 0;
+    size_t offset_ = 0;
 };
 
 template<typename T1, typename T2>

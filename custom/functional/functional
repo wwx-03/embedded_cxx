@@ -72,7 +72,7 @@ public:
         return *this;
     }
 
-    void operator()(Args... args) {
+    void operator()(Args... args) const {
         if (!func_) {
             while (1);
         }
