@@ -28,14 +28,14 @@ public:
     bool empty() const { return u_ == 0; }
 
     T &next() {
-        if (u_ >= N) {
-            offset_ = 0;
-        } else {
+        if (u_ < N) {
             ++u_;
+        }
+        if (offset_ >= N) {
+            offset_ = 0;
         }
         return p_[offset_++];
     }
-
 
     void remove(const size_t position) {
         if (position >= u_) {
