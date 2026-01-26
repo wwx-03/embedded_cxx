@@ -37,6 +37,10 @@ public:
         return p_[offset_++];
     }
 
+    T &current_data() {
+        return p_[offset_];
+    }
+
     void remove(const size_t position) {
         if (position >= u_) {
             return;
