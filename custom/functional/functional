@@ -26,10 +26,9 @@ public:
     }
 
     R operator()(Args... args) {
-        if (!func_) {
-            while (1);
+        if (func_) {
+            return func_(args...);
         }
-        return func_(args...);
     }
 
     explicit operator bool() {
@@ -73,10 +72,9 @@ public:
     }
 
     void operator()(Args... args) const {
-        if (!func_) {
-            while (1);
+        if (func_) {
+            func_(args...);
         }
-        func_(args...);
     }
 
     explicit operator bool() {
