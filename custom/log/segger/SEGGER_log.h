@@ -11,9 +11,9 @@
 
 #define LOG(format,...) SEGGER_RTT_printf(0, format  RTT_CTRL_RESET, ##__VA_ARGS__)
 
-#define LOGI(format,...) SEGGER_RTT_printf(0, RTT_CTRL_TEXT_BRIGHT_GREEN "LOG: " format  RTT_CTRL_RESET, ##__VA_ARGS__)
-#define LOGW(format,...) SEGGER_RTT_printf(0, RTT_CTRL_TEXT_BRIGHT_YELLOW "WAR: " format  RTT_CTRL_RESET, ##__VA_ARGS__)
-#define LOGE(format,...) SEGGER_RTT_printf(0, RTT_CTRL_TEXT_BRIGHT_RED "ERR: " format  RTT_CTRL_RESET, ##__VA_ARGS__)
+#define LOGI(format,...) SEGGER_RTT_printf(0, RTT_CTRL_TEXT_BRIGHT_GREEN format  RTT_CTRL_RESET, ##__VA_ARGS__)
+#define LOGW(format,...) SEGGER_RTT_printf(0, RTT_CTRL_TEXT_BRIGHT_YELLOW format  RTT_CTRL_RESET, ##__VA_ARGS__)
+#define LOGE(format,...) SEGGER_RTT_printf(0, RTT_CTRL_TEXT_BRIGHT_RED format  RTT_CTRL_RESET, ##__VA_ARGS__)
 
 #else
 
