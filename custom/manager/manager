@@ -38,7 +38,11 @@ public:
     }
 
     T &current_data() {
-        return p_[offset_];
+        if (offset_ == 0) {
+            return p_[N - 1];
+        } else {
+            return p_[offset_ - 1];
+        }
     }
 
     void remove(const size_t position) {
