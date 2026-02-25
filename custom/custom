@@ -5,6 +5,9 @@
 namespace custom {
 
     template<typename T>
+    static constexpr T dummy = T{};
+
+    template<typename T>
     size_t find(const T *const buffer, size_t size, const T *const data) {
 
         if (data == nullptr || buffer == nullptr || size == 0) {
