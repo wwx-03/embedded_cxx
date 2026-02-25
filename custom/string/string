@@ -67,6 +67,10 @@ public:
 
 class string_util {
 public:
+    static constexpr char hex_to_char(uint8_t hex) {
+        return hex < 10 ? '0' + hex : 'A' + (hex - 10);
+    }
+
     static constexpr uint8_t to_number(char hex) {
         if ('0' <= hex && hex <= '9') {
             return hex - '0'; 
@@ -77,6 +81,15 @@ public:
         } else {
             return 0;
         }
+    }
+
+    static constexpr void to_string(const uint8_t *src, size_t src_size, char *dest, size_t dest_size) {
+        size_t min = (src_size * 2 + 1 > dest_size) ? (dest_size - 1) / 2 : src_size;
+        for (size_t i = 0; i < min; ++i) {
+            *dest++ = hex_to_char(src[i] >> 4);
+            *dest++ = hex_to_char(src[i] & 0xF);
+        }
+        *dest = '\0';
     }
 };
 
