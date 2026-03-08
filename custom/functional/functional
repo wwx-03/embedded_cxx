@@ -29,6 +29,7 @@ public:
         if (func_) {
             return func_(args...);
         }
+        return R{};
     }
 
     explicit operator bool() {
