@@ -71,6 +71,10 @@ public:
         return hex < 10 ? '0' + hex : 'A' + (hex - 10);
     }
 
+    static constexpr char decimal_to_char(uint8_t dec) {
+        return '0' + dec;
+    }
+
     static constexpr uint8_t to_number(char hex) {
         if ('0' <= hex && hex <= '9') {
             return hex - '0'; 
@@ -83,7 +87,7 @@ public:
         }
     }
 
-    static constexpr void to_string(const uint8_t *src, size_t src_size, char *dest, size_t dest_size) {
+    static constexpr void to_hex_string(const uint8_t *src, size_t src_size, char *dest, size_t dest_size) {
         size_t min = (src_size * 2 + 1 > dest_size) ? (dest_size - 1) / 2 : src_size;
         for (size_t i = 0; i < min; ++i) {
             *dest++ = hex_to_char(src[i] >> 4);
@@ -91,6 +95,41 @@ public:
         }
         *dest = '\0';
     }
+
+    static constexpr void to_decimal_string(const uint8_t *src, size_t src_size, char *dest, size_t dest_size) {
+        if (dest_size == 0) return;
+        if (src == nullptr || src_size == 0) {
+            dest[0] = '\0';
+            return;
+        }
+
+        // Interpret buffer as a big-endian unsigned integer and format as decimal.
+        // This matches typical protocol representations (e.g., port 8862 -> "8862").
+        uint64_t value = 0;
+        for (size_t i = 0; i < src_size; ++i) {
+            value = (value << 8) | src[i];
+        }
+
+        // Convert to decimal string (max 20 digits for uint64_t).
+        char tmp[21] = {0};
+        size_t len = 0;
+        if (value == 0) {
+            tmp[len++] = '0';
+        } else {
+            while (value > 0 && len < sizeof(tmp) - 1) {
+                tmp[len++] = '0' + (value % 10);
+                value /= 10;
+            }
+        }
+
+        // Reverse into destination buffer, respecting dest_size.
+        size_t out_len = (len < dest_size - 1) ? len : dest_size - 1;
+        for (size_t i = 0; i < out_len; ++i) {
+            dest[i] = tmp[len - 1 - i];
+        }
+        dest[out_len] = '\0';
+    }
+
 };
 
 };
