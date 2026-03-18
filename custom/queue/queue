@@ -1,0 +1,39 @@
+#pragma once
+
+#include <cstdint>
+#include <cstddef>
+
+namespace custom {
+
+template<typename QueueLength, typename ItemSize>
+class queue {
+public:
+	queue() : buffer_{}, head_{}, tail{} {}
+	~queue() = default;
+
+	bool push(void *item) {
+		uint32_t next_tail = (tail_ + 1) % QueueLength;
+		if (next_tail == head_) {
+			return false; // 队列满
+		}
+		memcpy(buffer_[tail_], item, ItemSize);
+		tail_ = next_tail;
+		return true;
+	}
+
+	bool pop(void *item) {
+		if (head_ == tail_) {
+			return false; // 队列空
+		}
+		memcpy(item, buffer_[head_], ItemSize);
+		head_ = (head_ + 1) % QueueLength;
+		return true;
+	}
+
+private:
+	uint8_t buffer_[QueueLength][ItemSize];
+	volatile uint32_t head_;
+	volatile uint32_t tail_;
+};
+
+}
