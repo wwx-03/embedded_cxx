@@ -48,13 +48,23 @@ namespace custom {
     }
 
     template<typename T>
-    T min(T a, T b) {
+    static constexpr T min(T a, T b) {
         return a > b ? b : a;
     }
 
     template<typename T>
-    T max(T a, T b) {
+    static constexpr T max(T a, T b) {
         return a > b ? a : b;
+    }
+
+    template<typename T>
+    static constexpr size_t array_length(const T &array) {
+        return sizeof(array) / sizeof(array[0]);
+    }
+
+    template<typename UnsignedType>
+    static constexpr UnsignedType subtract(UnsignedType a, UnsignedType b) {
+        return a >= b ? a - b : 0;
     }
 
 };
