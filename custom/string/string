@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdarg.h>
 #include <stdint.h>
+#include <stddef.h>
 
 namespace custom {
 
@@ -67,6 +68,27 @@ public:
 
 class string_util {
 public:
+    static constexpr const char *to_string(char *buffer, size_t size, uint64_t value) {
+        if (size == 0) return nullptr;
+        char temp[21] = {0}; // uint64_t最大20位十进制数 + 1位终止符
+        size_t len = 0;
+        if (value == 0) {
+            temp[len++] = '0';
+        } else {
+            while (value > 0 && len < sizeof(temp) - 1) {
+                temp[len++] = '0' + (value % 10);
+                value /= 10;
+            }
+        }
+        // 反转字符串到目标缓冲区
+        size_t copy_len = (len < size - 1) ? len : size - 1;
+        for (size_t i = 0; i < copy_len; ++i) {
+            buffer[i] = temp[len - 1 - i];
+        }
+        buffer[copy_len] = '\0';
+        return buffer;
+    }
+
     static constexpr char hex_to_char(uint8_t hex) {
         return hex < 10 ? '0' + hex : 'A' + (hex - 10);
     }
@@ -85,6 +107,12 @@ public:
         } else {
             return 0;
         }
+    }
+
+    static constexpr size_t length(const char *string) {
+        size_t len = 0;
+        while (*(string + len++)) {}
+        return --len;
     }
 
     static constexpr void to_hex_string(const uint8_t *src, size_t src_size, char *dest, size_t dest_size) {

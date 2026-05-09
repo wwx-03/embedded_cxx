@@ -25,3 +25,7 @@
 #ifndef LOGE
 #define LOGE(fmt, ...)
 #endif
+
+#ifndef LOGI_ARRAY
+#define LOGI_ARRAY(label, data, size) 
+#endif
