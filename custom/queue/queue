@@ -5,10 +5,10 @@
 
 namespace custom {
 
-template<typename QueueLength, typename ItemSize>
+template<size_t QueueLength, size_t ItemSize>
 class queue {
 public:
-	queue() : buffer_{}, head_{}, tail{} {}
+	queue() : buffer_{}, head_{}, tail_{} {}
 	~queue() = default;
 
 	bool push(void *item) {
@@ -35,5 +35,5 @@ private:
 	volatile uint32_t head_;
 	volatile uint32_t tail_;
 };
-
+ 
 }
