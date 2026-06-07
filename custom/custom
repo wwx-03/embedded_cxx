@@ -58,6 +58,11 @@ namespace custom {
     }
 
     template<typename T>
+    static constexpr T abs(T value) {
+        return value < 0 ? -value : value;
+    }
+
+    template<typename T>
     static constexpr size_t array_length(const T &array) {
         return sizeof(array) / sizeof(array[0]);
     }
